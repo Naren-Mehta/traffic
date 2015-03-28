@@ -1,0 +1,36 @@
+
+ total test data: 1824 
+found in WL=0 , found in BL=1518 
+hit in DNSBL=54 , miss in dnsbl=252
+total time taken: 7.2000833333 min 
+Date = Sat Mar 28 00:14:06 IST 2015
+
+ total test data: 2000 
+found in WL=0 , found in BL=2000 
+hit in DNSBL=0 , miss in dnsbl=0
+total time taken: 0.0296833333 min 
+Date = Sat Mar 28 00:35:39 IST 2015
+
+ total test data: 2000 
+found in WL=0 , found in BL=2000 
+hit in DNSBL=0 , miss in dnsbl=0
+total time taken: 0.0271166667 min 
+Date = Sat Mar 28 00:53:44 IST 2015
+
+ total test data: 2000 
+found in WL=0 , found in BL=2000 
+hit in DNSBL=0 , miss in dnsbl=0
+total time taken: 0.0269 min 
+Date = Sat Mar 28 00:54:26 IST 2015
+
+ total test data: 2000 
+found in WL=0 , found in BL=2000 
+hit in DNSBL=0 , miss in dnsbl=0
+total time taken: 0.0277 min 
+Date = Sat Mar 28 00:55:19 IST 2015
+
+ total test data: 2000 
+found in WL=0 , found in BL=2000 
+hit in DNSBL=0 , miss in dnsbl=0
+total time taken: 0.0269333333 min 
+Date = Sat Mar 28 00:55:37 IST 2015
