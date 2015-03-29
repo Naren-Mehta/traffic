@@ -3,11 +3,15 @@ package traffic
 class Traffic {
 
 
-    String replacingScheme
-    String wlCacheSize
-    String blCacheSize
+    Long replacingScheme
+    Long wlCacheSize
+    Long blCacheSize
     String fileType
     Long batchSize
+
+    String batchType
+    Long batchSize1
+    Long batchSize2
 
     static hasMany = [dnsblsUrls: DnsblsUrls]
 
@@ -17,5 +21,9 @@ class Traffic {
         blCacheSize nullable: false
         fileType nullable: false
 
+        batchType nullable: false
+        batchSize nullable: true
+        batchSize1 nullable: true
+        batchSize2 nullable: true
     }
 }

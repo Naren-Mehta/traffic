@@ -1,36 +1,42 @@
 
- total test data: 1824 
-found in WL=0 , found in BL=1518 
-hit in DNSBL=54 , miss in dnsbl=252
-total time taken: 7.2000833333 min 
-Date = Sat Mar 28 00:14:06 IST 2015
+ total test data: 2008 
+found in WL=0 , found in BL=1996 
+hit in DNSBL=6 , miss in dnsbl=6
+total time taken: 0.1477833333 min 
+Date = Sun Mar 29 00:09:47 IST 2015
 
- total test data: 2000 
-found in WL=0 , found in BL=2000 
-hit in DNSBL=0 , miss in dnsbl=0
-total time taken: 0.0296833333 min 
-Date = Sat Mar 28 00:35:39 IST 2015
+ total test data: 1816 
+found in WL=0 , found in BL=1522 
+hit in DNSBL=49 , miss in dnsbl=245
+total time taken: 4.4477166667 min 
+Date = Sun Mar 29 00:15:58 IST 2015
 
- total test data: 2000 
-found in WL=0 , found in BL=2000 
+ total test data: 0 
+found in WL=0 , found in BL=0 
 hit in DNSBL=0 , miss in dnsbl=0
-total time taken: 0.0271166667 min 
-Date = Sat Mar 28 00:53:44 IST 2015
+total time taken: -23792819.8470166667 min 
+Date = Sun Mar 29 00:29:50 IST 2015
 
- total test data: 2000 
-found in WL=0 , found in BL=2000 
+ total test data: 1700 
+found in WL=0 , found in BL=1700 
 hit in DNSBL=0 , miss in dnsbl=0
-total time taken: 0.0269 min 
-Date = Sat Mar 28 00:54:26 IST 2015
+total time taken: 0.0277833333 min 
+Date = Sun Mar 29 00:32:10 IST 2015
 
- total test data: 2000 
-found in WL=0 , found in BL=2000 
+ total test data: 1620 
+found in WL=0 , found in BL=1620 
 hit in DNSBL=0 , miss in dnsbl=0
-total time taken: 0.0277 min 
-Date = Sat Mar 28 00:55:19 IST 2015
+total time taken: 0.0373 min 
+Date = Sun Mar 29 00:42:25 IST 2015
 
- total test data: 2000 
-found in WL=0 , found in BL=2000 
-hit in DNSBL=0 , miss in dnsbl=0
-total time taken: 0.0269333333 min 
-Date = Sat Mar 28 00:55:37 IST 2015
+ total test data: 1678 
+found in WL=0 , found in BL=1602 
+hit in DNSBL=26 , miss in dnsbl=50
+total time taken: 0.6135166667 min 
+Date = Sun Mar 29 00:47:26 IST 2015
+
+ total test data: 1710 
+found in WL=1662 , found in BL=0 
+hit in DNSBL=7 , miss in dnsbl=41
+total time taken: 0.2507 min 
+Date = Sun Mar 29 01:44:53 IST 2015

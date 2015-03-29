@@ -59,9 +59,6 @@ class TrafficUtilService {
 
             test = (String[]) listA1.toArray(new String[0]);
 
-
-            println("---------------e----------------------" + test)
-
             int foundinWL = 0;
             int foundinBL = 0;
             int missindnsbl = 0;
@@ -72,28 +69,19 @@ class TrafficUtilService {
 
             println("--------------------------------test.length-------------------------------------" + test.length)
 
-//            for (int j = 1; j <= 20; j++) {
-//
-//                println("--------j------------------" + j)
-//
-//                for (int aa = j; aa < j + 10; aa++) {
-//                    println("-------aa--------" + aa)
-//
-//                }
-//
-//                j = j + 9;
-//
-//                println()
-//                println()
-//                println()
-//            }
+
+            Long batchSize
 
 
-            Long batchSize = traffic?.batchSize as Long
             long stop = 0
 
             for (int j = 0; j < test.length; j++) {
 
+                if (traffic?.batchType?.equals("fixed")) {
+                    batchSize = traffic?.batchSize as Long
+                } else {
+                    batchSize = randInt(traffic?.batchSize1 as int, traffic?.batchSize2 as int) as Long
+                }
 
                 for (int jj = j; jj < (j + batchSize); jj++) {
                     FileInputStream fis = null;
@@ -142,7 +130,6 @@ class TrafficUtilService {
                     }
 
                     if (is1) {
-
                         System.out.println(" it's here in WL!!!");
                         foundinWL++;
 
@@ -171,6 +158,17 @@ class TrafficUtilService {
                                         hitindnsbl++;
                                         // WRITING IN THE BLACKLIST CACHE
                                         if (listA.indexOf(test[j]) < 0) {
+
+                                            if (traffic?.replacingScheme == 1) {
+                                                if (listB.size() > traffic?.blCacheSize) {
+                                                    String bllineToRemove = listB.getFirst();
+                                                    updateFile(webRootDir + "files/BL_Cache.txt", webRootDir + "files/New_BL_Cache.txt", bllineToRemove);
+                                                }
+                                            }
+
+
+
+
                                             BufferedWriter bw_one = new BufferedWriter(
                                                     new FileWriter(webRootDir + "files/BL_Cache.txt", true));
 
@@ -189,8 +187,17 @@ class TrafficUtilService {
                                         missindnsbl++;
                                         // WRITING IN THE WHITELIST CACHE
                                         if (listB.indexOf(test[j]) < 0) {
+
+                                            if (traffic?.replacingScheme == 1) {
+                                                if (listA.size() > traffic?.wlCacheSize) {
+                                                    String wllineToRemove = listA.getFirst();
+                                                    updateFile(webRootDir + "files/WL_Cache.txt", webRootDir + "files/New_WL_Cache.txt", wllineToRemove);
+                                                }
+                                            }
+
+
                                             BufferedWriter bw_two = new BufferedWriter(
-                                                    new FileWriter(webRootDir + "files/BL_Cache.txt", true));
+                                                    new FileWriter(webRootDir + "files/WL_Cache.txt", true));
 
 
                                             bw_two.write(test[j] + "\r\n");
@@ -321,6 +328,50 @@ class TrafficUtilService {
 
             AppUtil?.save(systemLogsDocuments)
         }
+    }
+
+
+    public static int randInt(int min, int max) {
+
+        // NOTE: Usually this should be a field rather than a method
+        // variable so that it is not re-seeded every call.
+        Random rand = new Random();
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
+
+
+    private static void updateFile(String srFile, String dtFile, String delItem) throws IOException {
+
+        //if(listB.size()>100){
+        File inputFile = new File(srFile);
+        File tempFile = new File(dtFile);
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+        String lineToRemove = delItem;
+        //(String)listB.getFirst();
+        //String lineToRemove2 =  (String)listB.getLast();
+
+        String currentLine = "";
+
+        //System.out.println(" Last string: "+ lineToRemove2+"  and  first string: "+ lineToRemove);
+
+        while ((currentLine = reader.readLine()) != null) {
+            String trimmedLine = currentLine.trim();
+            if (trimmedLine.equals(lineToRemove))
+                continue;
+            writer.write(currentLine);
+            writer.write("\r\n");
+        }
+        writer.close();
+        copyfile(dtFile, srFile);
+        //} // update portion
     }
 }
 

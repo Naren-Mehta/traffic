@@ -17,6 +17,7 @@ class TrafficStudyController {
 
         CommonsMultipartFile sysLogFile = trafficCO?.sysLogFile as CommonsMultipartFile
 
+
         if (trafficCO?.validate()) {
 
             Traffic traffic = new Traffic()
@@ -26,6 +27,11 @@ class TrafficStudyController {
             traffic.wlCacheSize = trafficCO?.wlCacheSize
             traffic.blCacheSize = trafficCO?.blCacheSize
             traffic.batchSize = trafficCO?.batchSize
+
+            traffic.batchType = trafficCO?.batchType
+            traffic.batchSize1 = trafficCO?.batchSize1
+            traffic.batchSize2 = trafficCO?.batchSize2
+
             AppUtil?.save(traffic)
 
 

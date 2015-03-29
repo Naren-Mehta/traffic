@@ -49,8 +49,34 @@
 
                     <div class="form-group">
                         <label>Input batch size</label>
-                        <input type="text" name="batchSize" value="${trafficCO?.batchSize}" class="form-control"
-                               placeholder="Input batch type">
+                    </div>
+
+                    <div class="form-group">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>
+                                    <g:radio name="batchType" value="fixed" checked="checked"/>
+                                    <label>Fixed</label>
+                                </td>
+                                <td>
+                                    <input type="text" name="batchSize" value="${trafficCO?.batchSize}"
+                                           placeholder="Input batch type">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <g:radio name="batchType" value="random"/>
+                                    <label>Rendom numbers between</label>
+                                </td>
+                                <td>
+                                    <input type="text" name="batchSize1" value="${trafficCO?.batchSize}">
+
+                                    <label>To</label>
+                                    <input type="text" name="batchSize2" value="${trafficCO?.batchSize}">
+                                </td>
+                            </tr>
+                        </table>
 
                     </div>
 
@@ -75,7 +101,6 @@
                     <div class="form-group">
                         <label>Please upload Ip list file</label>
                         <input type="file" name='uploadFiles[]' multiple>
-
                     </div>
 
                     <div class="form-group">
@@ -85,7 +110,7 @@
                         <g:select name="replacingScheme" class="form-control"
                                   noSelection="['': '-select File selection menu -']"
                                   value="${trafficCO?.replacingScheme}"
-                                  from="${["0", "1"]}"/>
+                                  from="${["1", "2"]}"/>
 
                     </div>
 
