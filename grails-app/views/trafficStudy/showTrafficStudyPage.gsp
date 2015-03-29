@@ -21,7 +21,7 @@
                         <g:render template="/common/aboutUserDetails"/>
                         <a href="#" role="button" class="btn btn-info"
                            data-target="#aboutUserDetails"
-                           data-toggle="modal">About This Page</a>
+                           data-toggle="modal">About</a>
 
                     </div>
 
@@ -99,18 +99,18 @@
                 %{--</div>--}%
 
                     <div class="form-group">
-                        <label>Please upload Ip list file</label>
+                        <label>Please upload File type selected above</label>
                         <input type="file" name='uploadFiles[]' multiple>
                     </div>
 
                     <div class="form-group">
-                        <label>Enter Replacing Sceheme . 1 for LRU and 2 for FIFO</label>
+                        <label>Enter Replacing Sceheme . 0 for NONE and 1 for FIFO</label>
 
 
                         <g:select name="replacingScheme" class="form-control"
                                   noSelection="['': '-select File selection menu -']"
                                   value="${trafficCO?.replacingScheme}"
-                                  from="${["1", "2"]}"/>
+                                  from="${["0", "1"]}"/>
 
                     </div>
 

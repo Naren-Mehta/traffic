@@ -16,7 +16,7 @@
                 <g:render template="/common/aboutResultPage"/>
                 <a href="#" role="button" class="btn btn-info"
                    data-target="#aboutResultPage"
-                   data-toggle="modal">About This Page</a>
+                   data-toggle="modal">About</a>
 
 
                 <table class="table table-bordered table-responsive">
