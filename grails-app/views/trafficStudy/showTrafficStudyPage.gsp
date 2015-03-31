@@ -15,7 +15,7 @@
                         enctype="multipart/form-data" method="POST">
 
                     <div class="form-group text-left">
-                        <h3>Welcome to the IP Cache</h3>
+                        <h3>Enter IP cache parameters</h3>
 
 
                         <g:render template="/common/aboutUserDetails"/>
@@ -48,7 +48,7 @@
 
 
                     <div class="form-group">
-                        <label>Input batch size</label>
+                        <label>Input Batch Size</label>
                     </div>
 
                     <div class="form-group">
@@ -67,12 +67,12 @@
                             <tr>
                                 <td>
                                     <g:radio name="batchType" value="random"/>
-                                    <label>Rendom numbers between</label>
+                                    <label>Random number between</label>
                                 </td>
                                 <td>
                                     <input type="text" name="batchSize1" value="${trafficCO?.batchSize}">
 
-                                    <label>To</label>
+                                    <label> and </label>
                                     <input type="text" name="batchSize2" value="${trafficCO?.batchSize}">
                                 </td>
                             </tr>
@@ -82,11 +82,11 @@
 
 
                     <div class="form-group">
-                        <label>Choose you file type</label>
+                        <label>File type</label>
 
 
                         <g:select name="fileType" class="form-control"
-                                  noSelection="['': '-select File selection menu -']"
+                                  noSelection="['': '- File Selection menu -']"
                                   value="${trafficCO?.fileType}"
                                   from="${["IP address", "System log"]}"/>
 
@@ -104,33 +104,33 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Enter Replacing Sceheme . 0 for NONE and 1 for FIFO</label>
+                        <label>Enter Cache Replacement Scheme: 0 for NONE and 1 for FIFO</label>
 
 
                         <g:select name="replacingScheme" class="form-control"
-                                  noSelection="['': '-select File selection menu -']"
+                                  noSelection="['': '-Cache Replacement menu -']"
                                   value="${trafficCO?.replacingScheme}"
                                   from="${["0", "1"]}"/>
 
                     </div>
 
                     <div class="form-group">
-                        <label>Initial local WL Cache size</label>
+                        <label>Local WL Cache size</label>
                         <input type="text" name="wlCacheSize" value="${trafficCO?.wlCacheSize}" class="form-control"
-                               placeholder="WL Cache size">
+                               placeholder="Max no. of entries in WL Cache">
 
                     </div>
 
                     <div class="form-group">
-                        <label>Initial local BL Cache size</label>
+                        <label>Local BL Cache size</label>
 
                         <input type="text" name="blCacheSize" value="${trafficCO?.blCacheSize}" class="form-control"
-                               placeholder="BL Cache size">
+                               placeholder="Max no. of entries in BL Cache ">
                     </div>
 
 
                     <div class="form-group">
-                        <label>Select Type of DNSBLs</label><br>
+                        <label>Select DNSBLs</label><br>
 
                         <g:select name="dnsblNo.id" class="selectpicker form-control" id="example-getting-started"
                                   multiple="multiple" data-selected-text-format="count"

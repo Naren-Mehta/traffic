@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Generic TTL Cache</title>
+    <title>IP caches</title>
 </head>
 
 <body>
@@ -9,7 +9,7 @@
     <div class="row">
 
         <div class="form-group text-center">
-            <h2>Welcome to the Traffic Study Parameters</h2>
+            <h2>IP cache - Traffic Study</h2>
 
         </div>
 
@@ -17,31 +17,34 @@
         <div class="span4">
             <div class="">
                 <dl class="dl-horizontal">
-                    <dt>Goal</dt>
-                    <dd>TTL cache stores data so that future requests for that data can be served faster. The data that is stored within a
-                    cache are e-mail senders (IP addresses) that have been extracted from a syslog file. If requested data is contained
-                    in the cache (cache hit), this request can be served by simply reading the cache, which is comparatively faster. TTL
-                    specifies how long a cache is supposed to use the entry before it expires and a new one needs to replace that.
+                    <dt>About</dt>
+                    <dd>We implement IP address caches to filter out the IP addresses.
+                    The local caches (WL and BL) initially are empty and get filled up according to the responses from the DNSBL queries.
+                    An IP address is added to the WL cache for all ‘misses’ or negative responses from the DNSBL and to the BL cache for all ‘hits’ or positive responses.
+
                     </dd>
                 </dl>
                 <dl class="dl-horizontal">
-                    <dt>Architecture</dt>
-                    <dd>Cache simulator are of following types
+                    <dt>Batches</dt>
+                    <dd>
+                        Batch can be defined as the total number of IP addresses sent for the DNSBL query for single simulation run
+                        of the code. For example a list extracted from a logged file, such as: 1,23,5,3,6,8,43,2,1,34,5,6,7
+                        could be divided into three batches of 1,23,5,3,6 and 8,43,2,1 and 34,5,6,7 in order. The goals are:
+
                         <div><br></div>
 
                         <div class="span4">
                             <div class="">
                                 <dl class="dl-horizontal">
-                                    <dt>Generic</dt>
-                                    <dd>Works with tables in text files
-                                    </dd>
+                                    <dt>1</dt>
+                                    <dd>To observe the growth of the hit rates as we fill up the caches,
+                                     </dd>
                                 </dl>
                                 <dl class="dl-horizontal">
-                                    <dt>JDBS</dt>
-                                    <dd>Works with database tables in
-                                    a. mySQL
-                                    b. Oracle
-                                    c. Excel
+                                    <dt>2</dt>
+                                    <dd>
+                                        To find where the hit rates begin to saturate to get an estimation of the optimal cache
+                                        size.
                                     </dd>
                                 </dl>
                             </div>
@@ -51,16 +54,17 @@
                 </dl>
                 <dl class="dl-horizontal">
                     <dt>Process</dt>
-                    <dd>In this simulator, in the start we will read a sample.txt and find if the entries are in cache.txt.</dd>
-                    <dd>If the entries are not present in the cache.txt (a miss), we store (or update) them in the cache.txt</dd>
-                    <dd>We keep track of hits and misses and bandwidth and latency involved.</dd>
+                    <dd>
+                    The senders’ IP addresses are first compared with the list in the local caches. If a sender is on the WL, further search in the BL cache and the external DNSBL query is not required; it will be sent directly to the user’s mail box (Hit++ in WL updated).
+                    Otherwise, the entry is searched at the BL cache and if it is found here (Hit++ in BL updated), the e-mail is rejected.
+                    If the IP address is not found in either of the caches (Miss++ in local caches), an external DNSBL query is carried out with that IP address to determine if it is listed in one or more DNSBLs.</dd>
                 </dl>
 
 
                 <dl class="dl-horizontal">
                     <dt>Memory Trace</dt>
-                    <dd>IP - TTL List</dd>
-                    <dd>TS - IP - TTL list</dd>
+                    <dd>Syslog</dd>
+                    <dd>IP List</dd>
                 </dl>
 
             </div>

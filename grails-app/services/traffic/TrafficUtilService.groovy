@@ -16,8 +16,6 @@ class TrafficUtilService {
         String ipAddressName = ipAddressDocuments?.name
         def webRootDir = AppUtil.staticResourcesDirPath
         String filename = webRootDir + "uploadedFile/ipAddress/${traffic?.id}/" + ipAddressName
-        println("---------------1--------------" + filename)
-
         String[] aaa = [filename]
 
         // String list =
@@ -54,9 +52,6 @@ class TrafficUtilService {
                 }
             }
 
-            println("---------------d-----------")
-
-
             test = (String[]) listA1.toArray(new String[0]);
 
             int foundinWL = 0;
@@ -65,10 +60,6 @@ class TrafficUtilService {
             int hitindnsbl = 0;
             a = new String[0];
             b = new String[0];
-
-
-            println("--------------------------------test.length-------------------------------------" + test.length)
-
 
             Long batchSize
 
@@ -149,66 +140,77 @@ class TrafficUtilService {
 
                             // /DOING DNSBL QUERY
 
+
+                            Boolean ifSuccess = false
                             List<DnsblsUrls> dnsblsUrlses = DnsblsUrls?.findAllByTraffic(traffic)
                             if (dnsblsUrlses) {
-                                dnsblsUrlses?.each { DnsblsUrls dnsblsUrl ->
-                                    if (checkRelay(test[j], dnsblsUrl?.urlName)) {
+                                dnsblsUrlses?.find { DnsblsUrls dnsblsUrl ->
 
-                                        System.out.println(" it's a hit in the DNS_BL!");
-                                        hitindnsbl++;
-                                        // WRITING IN THE BLACKLIST CACHE
-                                        if (listA.indexOf(test[j]) < 0) {
+                                    ifSuccess = checkRelay(test[j], dnsblsUrl?.urlName)
 
-                                            if (traffic?.replacingScheme == 1) {
-                                                if (listB.size() > traffic?.blCacheSize) {
-                                                    String bllineToRemove = listB.getFirst();
-                                                    updateFile(webRootDir + "files/BL_Cache.txt", webRootDir + "files/New_BL_Cache.txt", bllineToRemove);
-                                                }
-                                            }
+                                    if (ifSuccess) {
+                                        return true
+                                    }
+                                }
+                            }
 
 
+                            println("--------------ifSuccess-----------------------" + ifSuccess)
 
 
-                                            BufferedWriter bw_one = new BufferedWriter(
-                                                    new FileWriter(webRootDir + "files/BL_Cache.txt", true));
+                            if (ifSuccess) {
+                                println("-----------in---ifSuccess-------if----------------")
 
+                                System.out.println(" it's a hit in the DNS_BL!");
+                                hitindnsbl++;
+                                // WRITING IN THE BLACKLIST CACHE
+                                if (listA.indexOf(test[j]) < 0) {
 
-                                            bw_one.write(test[j] + "\r\n");
-                                            bw_one.close();
-                                            System.out
-                                                    .println("latest size of b (blacklist cache):"
-                                                    + (b.length + 1));
-
-                                        }
-
-                                    } else {
-                                        System.out
-                                                .println(" it's a miss in the DNS_BL!.....");
-                                        missindnsbl++;
-                                        // WRITING IN THE WHITELIST CACHE
-                                        if (listB.indexOf(test[j]) < 0) {
-
-                                            if (traffic?.replacingScheme == 1) {
-                                                if (listA.size() > traffic?.wlCacheSize) {
-                                                    String wllineToRemove = listA.getFirst();
-                                                    updateFile(webRootDir + "files/WL_Cache.txt", webRootDir + "files/New_WL_Cache.txt", wllineToRemove);
-                                                }
-                                            }
-
-
-                                            BufferedWriter bw_two = new BufferedWriter(
-                                                    new FileWriter(webRootDir + "files/WL_Cache.txt", true));
-
-
-                                            bw_two.write(test[j] + "\r\n");
-                                            bw_two.close();
-
-                                            System.out
-                                                    .println("latest size a (whitelist cache):"
-                                                    + (a.length + 1));
-
+                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.blCacheSize > 0) {
+                                        if (listB.size() > traffic?.blCacheSize) {
+                                            String bllineToRemove = listB.getFirst();
+                                            updateFile(webRootDir + "files/BL_Cache.txt", webRootDir + "files/New_BL_Cache.txt", bllineToRemove);
                                         }
                                     }
+
+                                    BufferedWriter bw_one = new BufferedWriter(
+                                            new FileWriter(webRootDir + "files/BL_Cache.txt", true));
+
+
+                                    bw_one.write(test[j] + "\r\n");
+                                    bw_one.close();
+                                    System.out
+                                            .println("latest size of b (blacklist cache):"
+                                            + (b.length + 1));
+
+                                }
+
+                            } else {
+                                System.out
+                                        .println(" it's a miss in the DNS_BL!.....");
+                                missindnsbl++;
+                                // WRITING IN THE WHITELIST CACHE
+                                if (listB.indexOf(test[j]) < 0) {
+
+                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.wlCacheSize > 0) {
+                                        if (listA.size() > traffic?.wlCacheSize) {
+                                            String wllineToRemove = listA.getFirst();
+                                            updateFile(webRootDir + "files/WL_Cache.txt", webRootDir + "files/New_WL_Cache.txt", wllineToRemove);
+                                        }
+                                    }
+
+
+                                    BufferedWriter bw_two = new BufferedWriter(
+                                            new FileWriter(webRootDir + "files/WL_Cache.txt", true));
+
+
+                                    bw_two.write(test[j] + "\r\n");
+                                    bw_two.close();
+
+                                    System.out
+                                            .println("latest size a (whitelist cache):"
+                                            + (a.length + 1));
+
                                 }
                             }
 
