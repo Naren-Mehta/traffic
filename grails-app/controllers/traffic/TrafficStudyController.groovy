@@ -14,6 +14,16 @@ class TrafficStudyController {
 
     def saveTrafficStudyPage = { TrafficCO trafficCO ->
 
+        def webRootDir = AppUtil.staticResourcesDirPath
+
+        PrintWriter writer = new PrintWriter(webRootDir + "/files/WL_Cache.txt");
+        writer.print("");
+        writer.close();
+
+        PrintWriter writer1 = new PrintWriter(webRootDir + "/files/BL_Cache.txt");
+        writer.print("");
+        writer.close();
+
 
         CommonsMultipartFile sysLogFile = trafficCO?.sysLogFile as CommonsMultipartFile
 

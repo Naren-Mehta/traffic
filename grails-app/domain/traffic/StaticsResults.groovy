@@ -9,6 +9,10 @@ class StaticsResults {
     Integer hitInDNSBL
     Integer missInDNSBL
     BigDecimal totalTimeTaken
+
+    Integer wlCatchSize
+    Integer blCatchSize
+
     Date date
 
     Traffic traffic
@@ -21,5 +25,7 @@ class StaticsResults {
         hitInDNSBL(nullable: true)
         totalTimeTaken(nullable: true)
         date(nullable: true)
+        wlCatchSize(nullable: true)
+        blCatchSize(nullable: true)
     }
 }

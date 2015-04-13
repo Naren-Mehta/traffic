@@ -13,6 +13,12 @@
             <div class="col-md-8">
 
                 <h1>Result</h1>
+
+                <div class="form-group">
+                    <g:link controller="trafficStudy" action="showTrafficStudyPage"
+                            class="btn btn-primary btn-lg">Simulate again</g:link>
+                </div>
+
                 <g:render template="/common/aboutResultPage"/>
                 <a href="#" role="button" class="btn btn-info"
                    data-target="#aboutResultPage"
@@ -28,6 +34,10 @@
                         <td>Hit in DNSBL</td>
                         <td>Miss in DNSBL</td>
                         <td>Total time taken</td>
+
+                        <td>WL cache size</td>
+                        <td>BL cache size</td>
+
                         <td>Date</td>
                     </tr>
 
@@ -39,6 +49,10 @@
                             <td>${staticsResult?.hitInDNSBL}</td>
                             <td>${staticsResult?.missInDNSBL}</td>
                             <td>${staticsResult?.totalTimeTaken} seconds</td>
+
+                            <td>${staticsResult?.wlCatchSize}</td>
+                            <td>${staticsResult?.blCatchSize}</td>
+
                             <td>${staticsResult?.date}</td>
                         </tr>
                     </g:each>

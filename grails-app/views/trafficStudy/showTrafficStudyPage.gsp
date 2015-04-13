@@ -72,7 +72,7 @@
                                 <td>
                                     <input type="text" name="batchSize1" value="${trafficCO?.batchSize}">
 
-                                    <label> and </label>
+                                    <label>and</label>
                                     <input type="text" name="batchSize2" value="${trafficCO?.batchSize}">
                                 </td>
                             </tr>
@@ -103,29 +103,44 @@
                         <input type="file" name='uploadFiles[]' multiple>
                     </div>
 
+                %{--<div class="form-group">--}%
+                %{--<label>Enter Cache Replacement Scheme: 0 for NONE and 1 for FIFO</label>--}%
+
+
+                %{--<g:select name="replacingScheme" class="form-control"--}%
+                %{--noSelection="['': '-Cache Replacement menu -']"--}%
+                %{--value="${trafficCO?.replacingScheme}"--}%
+                %{--from="${["0", "1"]}"/>--}%
+
+                %{--</div>--}%
+
                     <div class="form-group">
                         <label>Enter Cache Replacement Scheme: 0 for NONE and 1 for FIFO</label>
-
-
-                        <g:select name="replacingScheme" class="form-control"
-                                  noSelection="['': '-Cache Replacement menu -']"
-                                  value="${trafficCO?.replacingScheme}"
-                                  from="${["0", "1"]}"/>
+                        <input type="text" name="replacingScheme" value="1" readonly class="form-control">
 
                     </div>
 
                     <div class="form-group">
                         <label>Local WL Cache size</label>
-                        <input type="text" name="wlCacheSize" value="${trafficCO?.wlCacheSize}" class="form-control"
-                               placeholder="Max no. of entries in WL Cache">
+
+                        <g:select name="wlCacheSize" class="form-control"
+                                  noSelection="['': '-Max no. of entries in WL Cache -']"
+                                  value="${trafficCO?.wlCacheSize}"
+                                  from="${["100", "500",'1000']}"/>
+
+                        %{--<input type="text" name="wlCacheSize" value="${trafficCO?.wlCacheSize}" class="form-control"--}%
+                               %{--placeholder="Max no. of entries in WL Cache">--}%
 
                     </div>
 
                     <div class="form-group">
                         <label>Local BL Cache size</label>
-
-                        <input type="text" name="blCacheSize" value="${trafficCO?.blCacheSize}" class="form-control"
-                               placeholder="Max no. of entries in BL Cache ">
+                        <g:select name="blCacheSize" class="form-control"
+                                  noSelection="['': '-Max no. of entries in BL Cache -']"
+                                  value="${trafficCO?.blCacheSize}"
+                                  from="${["100", "500",'1000']}"/>
+                        %{--<input type="text" name="blCacheSize" value="${trafficCO?.blCacheSize}" class="form-control"--}%
+                               %{--placeholder="Max no. of entries in BL Cache ">--}%
                     </div>
 
 
