@@ -126,7 +126,7 @@ class TrafficUtilService {
 
                     for (int i = 0; i < a.length; i++) {
                         // try changing here i, j swap
-                        if (test[j].equals(a[i])) {
+                        if (test[jj].equals(a[i])) {
                             is1 = true;
                         }
                     }
@@ -200,7 +200,7 @@ class TrafficUtilService {
                                 println(" it's a miss in the DNS_BL!.....-----8-----------------");
                                 missindnsbl++;
                                 // WRITING IN THE WHITELIST CACHE
-                                if (listB.indexOf(test[j]) < 0) {
+                                if (listB.indexOf(test[jj]) < 0) {
 
 //                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.wlCacheSize > 0) {
                                     if ((traffic?.replacingScheme == 1 as Long)) {

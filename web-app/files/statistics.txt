@@ -292,3 +292,57 @@ found in WL=12 , found in BL=1
 hit in DNSBL=5 , miss in dnsbl=7
 total time taken: 0.1559666667 min 
 Date = Tue Apr 14 23:22:06 IST 2015
+
+ total test data: 30 
+found in WL=9 , found in BL=1 
+hit in DNSBL=5 , miss in dnsbl=15
+total time taken: 0.32075 min 
+Date = Tue Apr 14 23:30:35 IST 2015
+
+ total test data: 25 
+found in WL=12 , found in BL=1 
+hit in DNSBL=5 , miss in dnsbl=7
+total time taken: 0.4860666667 min 
+Date = Tue Apr 14 23:36:47 IST 2015
+
+ total test data: 25 
+found in WL=12 , found in BL=1 
+hit in DNSBL=5 , miss in dnsbl=7
+total time taken: 0.1548333333 min 
+Date = Tue Apr 14 23:39:50 IST 2015
+
+ total test data: 30 
+found in WL=9 , found in BL=1 
+hit in DNSBL=5 , miss in dnsbl=15
+total time taken: 0.2219333333 min 
+Date = Tue Apr 14 23:51:24 IST 2015
+
+ total test data: 25 
+found in WL=8 , found in BL=1 
+hit in DNSBL=8 , miss in dnsbl=8
+total time taken: 1.3343666667 min 
+Date = Wed Apr 15 00:01:38 IST 2015
+
+ total test data: 25 
+found in WL=12 , found in BL=1 
+hit in DNSBL=5 , miss in dnsbl=7
+total time taken: 0.1031833333 min 
+Date = Wed Apr 15 00:06:04 IST 2015
+
+ total test data: 25 
+found in WL=12 , found in BL=1 
+hit in DNSBL=5 , miss in dnsbl=7
+total time taken: 0.07545 min 
+Date = Wed Apr 15 00:09:01 IST 2015
+
+ total test data: 30 
+found in WL=9 , found in BL=1 
+hit in DNSBL=5 , miss in dnsbl=15
+total time taken: 0.1209 min 
+Date = Wed Apr 15 00:10:49 IST 2015
+
+ total test data: 30 
+found in WL=9 , found in BL=1 
+hit in DNSBL=5 , miss in dnsbl=15
+total time taken: 0.2019166667 min 
+Date = Wed Apr 15 00:20:12 IST 2015
