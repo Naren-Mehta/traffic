@@ -31,12 +31,15 @@
                         <td>Total test data</td>
                         <td>Found in WL</td>
                         <td>Found in BL</td>
+
+                        <td>WL cache size</td>
+                        <td>BL cache size</td>
+
+
                         <td>Hit in DNSBL</td>
                         <td>Miss in DNSBL</td>
                         <td>Total time taken</td>
 
-                        <td>WL cache size</td>
-                        <td>BL cache size</td>
 
                         <td>Date</td>
                     </tr>
@@ -46,12 +49,15 @@
                             <td>${staticsResult?.totalTestData}</td>
                             <td>${staticsResult?.foundInWL}</td>
                             <td>${staticsResult?.foundInBL}</td>
+
+                            <td>${staticsResult?.wlCatchSize}</td>
+                            <td>${staticsResult?.blCatchSize}</td>
+
                             <td>${staticsResult?.hitInDNSBL}</td>
                             <td>${staticsResult?.missInDNSBL}</td>
                             <td>${staticsResult?.totalTimeTaken} seconds</td>
 
-                            <td>${staticsResult?.wlCatchSize}</td>
-                            <td>${staticsResult?.blCatchSize}</td>
+
 
                             <td>${staticsResult?.date}</td>
                         </tr>

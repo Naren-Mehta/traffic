@@ -4,7 +4,7 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
-grails.server.port.http = 8185
+grails.server.port.http = 8885
 
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
@@ -36,7 +36,7 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
-        // runtime 'mysql:mysql-connector-java:5.1.20'
+         runtime 'mysql:mysql-connector-java:5.1.20'
     }
 
     plugins {

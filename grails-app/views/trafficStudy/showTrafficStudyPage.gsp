@@ -1,3 +1,4 @@
+<%@ page import="traffic.Dnsbl" %>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -149,12 +150,7 @@
 
                         <g:select name="dnsblNo.id" class="selectpicker form-control" id="example-getting-started"
                                   multiple="multiple" data-selected-text-format="count"
-                                  from="${["zen.spamhaus.org", "l2.apews.org",
-                                           "dnsbl.sorbs.net", "spam.dnsbl.sorbs.net",
-                                           "bl.mailspike.net", "hostkarma.junkemailfilter.com", "dnsbl-1.uceprotect.net",
-                                           "dnsbl-2.uceprotect.net", "dnsbl-3.uceprotect.net", "b.barracudacentral.org",
-                                           "cbl.abuseat.org", "bl.tiopan.com", "psbl.surriel.com", "db.wpbl.info", "bl.spameatingmonkey.net",
-                                           "dnsbl.inps.de", "all.spamrats.com", "truncate.gbudb.net", "ips.backscatterer.org", "ubl.unsubscore.com"]}"/>
+                                  from="${traffic.Dnsbl?.list()}"/>
                     </div>
 
                     <div class="form-group">
