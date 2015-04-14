@@ -8,18 +8,35 @@ class TrafficUtilService {
 
 
     public Boolean performLogic(Traffic traffic) {
+        def webRootDir = AppUtil.staticResourcesDirPath
 
         StaticsResults staticsResults = null
         Boolean isSuccessful = false
-        IpAddressDocuments ipAddressDocuments = IpAddressDocuments?.findByTraffic(traffic)
+        List<IpAddressDocuments> ipAddressDocumentsList = IpAddressDocuments?.findAllByTraffic(traffic)
 
-        String ipAddressName = ipAddressDocuments?.name
-        def webRootDir = AppUtil.staticResourcesDirPath
-        String filename = webRootDir + "uploadedFile/ipAddress/${traffic?.id}/" + ipAddressName
-        String[] aaa = [filename]
+        List<String> totalFiles = []
+
+        println("------------------ipAddressDocumentsList------------------" + ipAddressDocumentsList)
+
+
+        if (ipAddressDocumentsList) {
+            ipAddressDocumentsList?.each { IpAddressDocuments ipAddressDocuments ->
+                String ipAddressName = ipAddressDocuments?.name
+                String filename = webRootDir + "uploadedFile/ipAddress/${traffic?.id}/" + ipAddressName
+                totalFiles?.add(filename)
+            }
+        }
+
+        int length = totalFiles?.size()
+        String[] aaa = new String[length]
+        totalFiles?.eachWithIndex { String entry, int i ->
+            aaa[i] = entry
+        }
 
         // String list =
         // "C:\\Users\\Ashok\\workspace\\TrafficStudyNew\\src\\IPList.txt";
+
+
         for (int intt = 0; intt < aaa.length; intt++) {
             long start = System.currentTimeMillis();
 
@@ -67,15 +84,19 @@ class TrafficUtilService {
 
             long stop = 0
 
+            if (traffic?.batchType?.equals("fixed")) {
+                batchSize = traffic?.batchSize as Long
+            } else {
+                batchSize = randInt(traffic?.batchSize1 as int, traffic?.batchSize2 as int) as Long
+            }
+
+
             for (int j = 0; j < test.length; j++) {
-
-                if (traffic?.batchType?.equals("fixed")) {
-                    batchSize = traffic?.batchSize as Long
-                } else {
-                    batchSize = randInt(traffic?.batchSize1 as int, traffic?.batchSize2 as int) as Long
-                }
-
                 for (int jj = j; jj < (j + batchSize); jj++) {
+                    println("------------------------1111111111111--------------" + j)
+                    println("------------------------2222222222222--------------" + jj)
+                    println()
+
                     FileInputStream fis = null;
                     fis = new FileInputStream(webRootDir + "/files/WL_Cache.txt");
 
@@ -93,9 +114,6 @@ class TrafficUtilService {
                     }
 
                     a = (String[]) listA.toArray(new String[0]);
-
-                    println("------------------a----------------" + a)
-
                     FileInputStream ffis = new FileInputStream(webRootDir + "files/BL_Cache.txt");
 
                     BufferedInputStream bbis = new BufferedInputStream(ffis);
@@ -111,29 +129,21 @@ class TrafficUtilService {
 
                     b = (String[]) listB.toArray(new String[0]);
 
-                    println("------------------b----------------" + b)
-
-
                     boolean is1 = false;
                     println(" \nSTART of SEARCH.........!!!");
                     // /SEARCHING ARRAY ONE /whitelist cache
 
 
-                    println(" -------------a.length--------------........!!!" + a.length);
-                    println(" --------------test.length-------------........!!!" + test.length);
-
-
                     for (int i = 0; i < a.length; i++) {
-                        // try changing here i, j swap
-
-                        println("------------------test[j]----------1------" + test[j])
-                        println("------------------a[i]--------------1--" + a[i])
-
-
-                        if (test[j].equals(a[i])) {
-                            is1 = true;
+                        if (test.length > jj) {
+                            // try changing here i, j swap
+                            if (test[jj].equals(a[i])) {
+                                is1 = true;
+                            }
                         }
                     }
+
+                    println("--------------after start of search--------------------------------" + is1)
 
                     if (is1) {
                         println(" it's here in WL!!!");
@@ -144,31 +154,29 @@ class TrafficUtilService {
                         boolean is2 = false;
                         for (int i = 0; i < b.length; i++) {
 
-                            println("------------------test[j]---------2-------" + test[j])
-                            println("------------------a[i]-------------2---" + b[i])
-
-                            if (test[j].equals(b[i])) {
-                                is2 = true;
+                            if (test.length > jj) {
+                                if (test[jj].equals(b[i])) {
+                                    is2 = true;
+                                }
                             }
+
                         }
 
 
                         if (is2) {
                             println(" it's here in BL!!!");
                             foundinBL++;
-                        }
-                        else {
+                        } else {
                             println(" not in BL ..now DNSBL query..");
 
                             // /DOING DNSBL QUERY
-
-
                             Boolean ifSuccess = false
                             List<DnsblsUrls> dnsblsUrlses = DnsblsUrls?.findAllByTraffic(traffic)
                             if (dnsblsUrlses) {
                                 dnsblsUrlses?.find { DnsblsUrls dnsblsUrl ->
-
-                                    ifSuccess = checkRelay(test[j], dnsblsUrl?.urlName)
+                                    if (test.length > jj) {
+                                        ifSuccess = checkRelay(test[jj], dnsblsUrl?.urlName)
+                                    }
 
                                     if (ifSuccess) {
                                         return true
@@ -177,12 +185,10 @@ class TrafficUtilService {
                             }
 
                             if (ifSuccess) {
-                                println("-----------in---ifSuccess-------if----------------" + traffic?.replacingScheme)
-
                                 println(" it's a hit in the DNS_BL!");
                                 hitindnsbl++;
                                 // WRITING IN THE BLACKLIST CACHE
-                                if (listA.indexOf(test[j]) < 0) {
+                                if (listA.indexOf(test[jj]) < 0 && (test.length > jj)) {
 
 //                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.blCacheSize > 0) {
                                     if ((traffic?.replacingScheme == 1 as Long)) {
@@ -196,7 +202,7 @@ class TrafficUtilService {
                                             new FileWriter(webRootDir + "files/BL_Cache.txt", true));
 
 
-                                    bw_one.write(test[j] + "\r\n");
+                                    bw_one.write(test[jj] + "\r\n");
                                     bw_one.close();
                                     System.out
                                             .println("latest size of b (blacklist cache):"
@@ -204,45 +210,44 @@ class TrafficUtilService {
 
                                 }
 
-                            }
-                            else {
-                                System.out
-                                        .println(" it's a miss in the DNS_BL!.....");
-                                missindnsbl++;
-                                // WRITING IN THE WHITELIST CACHE
-                                if (listB.indexOf(test[j]) < 0) {
+                            } else {
+                                println(" it's a miss in the DNS_BL!.....");
+                                if (test.length > jj) {
+                                    missindnsbl++;
+
+                                    if (listB.indexOf(test[jj]) < 0) {
 
 //                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.wlCacheSize > 0) {
-                                    if ((traffic?.replacingScheme == 1 as Long)) {
-                                        if (listA.size() > traffic?.wlCacheSize) {
-                                            String wllineToRemove = listA.getFirst();
-                                            updateFile(webRootDir + "files/WL_Cache.txt", webRootDir + "files/New_WL_Cache.txt", wllineToRemove);
+                                        if ((traffic?.replacingScheme == 1 as Long)) {
+                                            if (listA.size() > traffic?.wlCacheSize) {
+                                                String wllineToRemove = listA.getFirst();
+                                                updateFile(webRootDir + "files/WL_Cache.txt", webRootDir + "files/New_WL_Cache.txt", wllineToRemove);
+                                            }
                                         }
+
+
+                                        BufferedWriter bw_two = new BufferedWriter(
+                                                new FileWriter(webRootDir + "files/WL_Cache.txt", true));
+
+
+                                        bw_two.write(test[jj] + "\r\n");
+                                        bw_two.close();
+
+                                        System.out
+                                                .println("latest size a (whitelist cache):"
+                                                + (a.length + 1));
+
                                     }
-
-
-                                    BufferedWriter bw_two = new BufferedWriter(
-                                            new FileWriter(webRootDir + "files/WL_Cache.txt", true));
-
-
-                                    bw_two.write(test[j] + "\r\n");
-                                    bw_two.close();
-
-                                    System.out
-                                            .println("latest size a (whitelist cache):"
-                                            + (a.length + 1));
-
                                 }
+                                // WRITING IN THE WHITELIST CACHE
+
                             }
 
 
                         } // DNSBL query
                     }
 
-                    jj = jj + (batchSize - 1);
-
                 }
-
 
                 // search BL end
 
@@ -282,6 +287,9 @@ class TrafficUtilService {
                 staticsResults?.traffic = traffic
 
                 AppUtil?.save(staticsResults)
+
+
+                j = j + (batchSize - 1);
 
             } // array of strings end
 
