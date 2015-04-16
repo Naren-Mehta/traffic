@@ -16,9 +16,6 @@ class TrafficUtilService {
 
         List<String> totalFiles = []
 
-        println("------------------ipAddressDocumentsList------------------" + ipAddressDocumentsList)
-
-
         if (ipAddressDocumentsList) {
             ipAddressDocumentsList?.each { IpAddressDocuments ipAddressDocuments ->
                 String ipAddressName = ipAddressDocuments?.name
@@ -80,8 +77,6 @@ class TrafficUtilService {
 
             Long batchSize
 
-            println("------------------test.length----------------" + test.length)
-
             long stop = 0
 
             if (traffic?.batchType?.equals("fixed")) {
@@ -93,10 +88,6 @@ class TrafficUtilService {
 
             for (int j = 0; j < test.length; j++) {
                 for (int jj = j; jj < (j + batchSize); jj++) {
-                    println("------------------------1111111111111--------------" + j)
-                    println("------------------------2222222222222--------------" + jj)
-                    println()
-
                     FileInputStream fis = null;
                     fis = new FileInputStream(webRootDir + "/files/WL_Cache.txt");
 
@@ -114,6 +105,8 @@ class TrafficUtilService {
                     }
 
                     a = (String[]) listA.toArray(new String[0]);
+
+
                     FileInputStream ffis = new FileInputStream(webRootDir + "files/BL_Cache.txt");
 
                     BufferedInputStream bbis = new BufferedInputStream(ffis);
@@ -142,14 +135,12 @@ class TrafficUtilService {
                             }
                         }
                     }
-
-                    println("--------------after start of search--------------------------------" + is1)
-
                     if (is1) {
                         println(" it's here in WL!!!");
                         foundinWL++;
 
-                    } else { // /SEARCHING ARRAY TWO /blacklist cache
+                    }
+                    else { // /SEARCHING ARRAY TWO /blacklist cache
                         println(" not in WL...now searching BL ....");
                         boolean is2 = false;
                         for (int i = 0; i < b.length; i++) {
@@ -190,11 +181,14 @@ class TrafficUtilService {
                                 // WRITING IN THE BLACKLIST CACHE
                                 if (listA.indexOf(test[jj]) < 0 && (test.length > jj)) {
 
-//                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.blCacheSize > 0) {
-                                    if ((traffic?.replacingScheme == 1 as Long)) {
-                                        if (listB.size() > traffic?.blCacheSize) {
-                                            String bllineToRemove = listB.getFirst();
-                                            updateFile(webRootDir + "files/BL_Cache.txt", webRootDir + "files/New_BL_Cache.txt", bllineToRemove);
+                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.blCacheSize > 0) {
+                                        String file = webRootDir + "files/BL_Cache.txt"
+                                        List list = giveList(file)
+
+                                        if (list.size() > traffic?.blCacheSize) {
+                                            println("---------------------listA.size()-------its a hit------------" + list.size())
+
+                                            removeFirstLine(file)
                                         }
                                     }
 
@@ -217,18 +211,21 @@ class TrafficUtilService {
 
                                     if (listB.indexOf(test[jj]) < 0) {
 
-//                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.wlCacheSize > 0) {
-                                        if ((traffic?.replacingScheme == 1 as Long)) {
-                                            if (listA.size() > traffic?.wlCacheSize) {
-                                                String wllineToRemove = listA.getFirst();
-                                                updateFile(webRootDir + "files/WL_Cache.txt", webRootDir + "files/New_WL_Cache.txt", wllineToRemove);
+                                        if ((traffic?.replacingScheme == 1 as Long) && traffic?.wlCacheSize > 0) {
+
+                                            String file = webRootDir + "files/WL_Cache.txt"
+
+                                            List list = giveList(file)
+                                            if (list.size() > traffic?.wlCacheSize) {
+                                                println("---------------------listA.size()-------its a miss------------" + list.size())
+
+                                                removeFirstLine(file)
                                             }
                                         }
 
 
                                         BufferedWriter bw_two = new BufferedWriter(
                                                 new FileWriter(webRootDir + "files/WL_Cache.txt", true));
-
 
                                         bw_two.write(test[jj] + "\r\n");
                                         bw_two.close();
@@ -256,18 +253,26 @@ class TrafficUtilService {
                 // writing in the stats
 
 
-                LineNumberReader lnr = new LineNumberReader(new FileReader(new File(webRootDir + "/files/WL_Cache.txt")));
-                lnr.skip(Long.MAX_VALUE);
-                println(lnr.getLineNumber()); //Add 1 because line index starts at 0
-// Finally, the LineNumberReader object should be closed to prevent resource leak
-                lnr.close();
+                String file = webRootDir + "/files/WL_Cache.txt"
+                List list = giveList(file)
+                println("------11------" + list.size()); //Add 1 because line index starts at 0
 
+                String file1 = webRootDir + "/files/BL_Cache.txt"
+                List list1 = giveList(file1)
+                println("-------22------" + list.size()); //Add 1 because line index starts at 0
 
-                LineNumberReader lnr1 = new LineNumberReader(new FileReader(new File(webRootDir + "/files/BL_Cache.txt")));
-                lnr1.skip(Long.MAX_VALUE);
-                println(lnr1.getLineNumber()); //Add 1 because line index starts at 0
-// Finally, the LineNumberReader object should be closed to prevent resource leak
-                lnr.close();
+//                LineNumberReader lnr = new LineNumberReader(new FileReader(new File(webRootDir + "/files/WL_Cache.txt")));
+//                lnr.skip(Long.MAX_VALUE);
+//                println(lnr.getLineNumber()); //Add 1 because line index starts at 0
+//// Finally, the LineNumberReader object should be closed to prevent resource leak
+//                lnr.close();
+//
+//
+//                LineNumberReader lnr1 = new LineNumberReader(new FileReader(new File(webRootDir + "/files/BL_Cache.txt")));
+//                lnr1.skip(Long.MAX_VALUE);
+//                println(lnr1.getLineNumber()); //Add 1 because line index starts at 0
+//// Finally, the LineNumberReader object should be closed to prevent resource leak
+//                lnr.close();
 
 
                 staticsResults = new StaticsResults()
@@ -281,8 +286,8 @@ class TrafficUtilService {
                 staticsResults?.totalTimeTaken = ((stop - start) / 60000) as BigDecimal
                 staticsResults?.date = new Date()
 
-                staticsResults?.wlCatchSize = (lnr.getLineNumber()) as Integer
-                staticsResults?.blCatchSize = (lnr1.getLineNumber()) as Integer
+                staticsResults?.wlCatchSize = list.size() as Integer
+                staticsResults?.blCatchSize = list1.size() as Integer
 
                 staticsResults?.traffic = traffic
 
@@ -398,33 +403,68 @@ class TrafficUtilService {
     }
 
 
-    private static void updateFile(String srFile, String dtFile, String delItem) throws IOException {
+    public static void removeFirstLine(String file) throws IOException {
 
-        //if(listB.size()>100){
-        File inputFile = new File(srFile);
-        File tempFile = new File(dtFile);
+        List listA1 = null;
 
-        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+        // FileInputStream f1 = new
+        // FileInputStream("/home/narendra/Desktop/iplist1.txt");
 
-        String lineToRemove = delItem;
-        //(String)listB.getFirst();
-        //String lineToRemove2 =  (String)listB.getLast();
+        FileInputStream f1 = new FileInputStream(file)
+        BufferedInputStream b1 = new BufferedInputStream(f1);
+        DataInputStream d1 = new DataInputStream(b1);
+        String s1 = null;
+        listA1 = new LinkedList();
 
-        String currentLine = "";
-
-        //System.out.println(" Last string: "+ lineToRemove2+"  and  first string: "+ lineToRemove);
-
-        while ((currentLine = reader.readLine()) != null) {
-            String trimmedLine = currentLine.trim();
-            if (trimmedLine.equals(lineToRemove))
-                continue;
-            writer.write(currentLine);
-            writer.write("\r\n");
+        while ((s1 = d1.readLine()) != null) {
+            StringTokenizer sss1 = new StringTokenizer(s1, " ");
+            while (sss1.hasMoreTokens()) {
+                listA1.add(sss1.nextToken());
+            }
         }
+
+        // test = (String[]) listA1.toArray(new String[0]);
+
+        System.out.println("-----------1------------------" + listA1.size());
+        listA1.remove(0);
+        System.out.println("-----------2------------------" + listA1.size());
+
+        PrintWriter writer = new PrintWriter(file)
+        writer.print("");
         writer.close();
-        copyfile(dtFile, srFile);
-        //} // update portion
+
+        String[] test = (String[]) listA1.toArray(new String[0]);
+
+        for (int j = 0; j < test.length; j++) {
+            BufferedWriter bw_one = new BufferedWriter(new FileWriter(file, true));
+            bw_one.write(test[j] + "\r\n");
+            bw_one.close();
+        }
+
     }
+
+
+    public List giveList(String file) {
+        LinkedList listA1 = null;
+
+        // FileInputStream f1 = new
+        // FileInputStream("/home/narendra/Desktop/iplist1.txt");
+
+        FileInputStream f1 = new FileInputStream(file)
+        BufferedInputStream b1 = new BufferedInputStream(f1);
+        DataInputStream d1 = new DataInputStream(b1);
+        String s1 = null;
+        listA1 = new LinkedList();
+
+        while ((s1 = d1.readLine()) != null) {
+            StringTokenizer sss1 = new StringTokenizer(s1, " ");
+            while (sss1.hasMoreTokens()) {
+                listA1.add(sss1.nextToken());
+            }
+        }
+
+        return listA1
+    }
+
 }
 

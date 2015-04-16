@@ -71,7 +71,7 @@ class TrafficStudyController {
                 isSuccessful = trafficUtilService?.performLogic(traffic)
             }
             catch (Exception e) {
-
+                println("----------------exception-----------------------")
             }
 
 

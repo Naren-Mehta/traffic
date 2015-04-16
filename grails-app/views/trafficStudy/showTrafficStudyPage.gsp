@@ -116,7 +116,12 @@
 
                     <div class="form-group">
                         <label>Enter Cache Replacement Scheme: 0 for NONE and 1 for FIFO</label>
-                        <input type="text" name="replacingScheme" value="1" readonly class="form-control">
+                        <g:select name="replacingScheme" class="form-control"
+                                  noSelection="['': '-Cache Replacement menu -']"
+                                  value="${trafficCO?.replacingScheme}"
+                                  from="${["0", "1"]}"/>
+
+                        %{--<input type="text" name="replacingScheme" value="1" readonly class="form-control">--}%
 
                     </div>
 
@@ -126,10 +131,10 @@
                         <g:select name="wlCacheSize" class="form-control"
                                   noSelection="['': '-Max no. of entries in WL Cache -']"
                                   value="${trafficCO?.wlCacheSize}"
-                                  from="${["100", "500",'1000']}"/>
+                                  from="${["5", "10", "20", "50", "100", "500", '1000']}"/>
 
                         %{--<input type="text" name="wlCacheSize" value="${trafficCO?.wlCacheSize}" class="form-control"--}%
-                               %{--placeholder="Max no. of entries in WL Cache">--}%
+                        %{--placeholder="Max no. of entries in WL Cache">--}%
 
                     </div>
 
@@ -138,9 +143,9 @@
                         <g:select name="blCacheSize" class="form-control"
                                   noSelection="['': '-Max no. of entries in BL Cache -']"
                                   value="${trafficCO?.blCacheSize}"
-                                  from="${["100", "500",'1000']}"/>
+                                  from="${["5", "10", "20", "50", "100", "500", '1000']}"/>
                         %{--<input type="text" name="blCacheSize" value="${trafficCO?.blCacheSize}" class="form-control"--}%
-                               %{--placeholder="Max no. of entries in BL Cache ">--}%
+                        %{--placeholder="Max no. of entries in BL Cache ">--}%
                     </div>
 
 
