@@ -304,3 +304,33 @@ found in WL=4 , found in BL=2
 hit in DNSBL=6 , miss in dnsbl=12
 total time taken: 0.4087 min 
 Date = Fri Apr 17 00:55:14 IST 2015
+
+ total test data: 24 
+found in WL=3 , found in BL=2 
+hit in DNSBL=4 , miss in dnsbl=15
+total time taken: 0.1674666667 min 
+Date = Fri Apr 17 00:57:57 IST 2015
+
+ total test data: 24 
+found in WL=5 , found in BL=2 
+hit in DNSBL=6 , miss in dnsbl=11
+total time taken: 0.1682833333 min 
+Date = Fri Apr 17 01:19:13 IST 2015
+
+ total test data: 24 
+found in WL=3 , found in BL=2 
+hit in DNSBL=6 , miss in dnsbl=13
+total time taken: 0.13275 min 
+Date = Fri Apr 17 01:19:39 IST 2015
+
+ total test data: 24 
+found in WL=3 , found in BL=2 
+hit in DNSBL=9 , miss in dnsbl=10
+total time taken: 0.1225833333 min 
+Date = Fri Apr 17 01:20:11 IST 2015
+
+ total test data: 24 
+found in WL=5 , found in BL=2 
+hit in DNSBL=6 , miss in dnsbl=11
+total time taken: 0.2175333333 min 
+Date = Fri Apr 17 01:21:36 IST 2015

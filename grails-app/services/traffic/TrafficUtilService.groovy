@@ -139,8 +139,7 @@ class TrafficUtilService {
                         println(" it's here in WL!!!");
                         foundinWL++;
 
-                    }
-                    else { // /SEARCHING ARRAY TWO /blacklist cache
+                    } else { // /SEARCHING ARRAY TWO /blacklist cache
                         println(" not in WL...now searching BL ....");
                         boolean is2 = false;
                         for (int i = 0; i < b.length; i++) {
@@ -181,14 +180,13 @@ class TrafficUtilService {
                                 // WRITING IN THE BLACKLIST CACHE
                                 if (listA.indexOf(test[jj]) < 0 && (test.length > jj)) {
 
-                                    if ((traffic?.replacingScheme == 1 as Long) && traffic?.blCacheSize > 0) {
+                                    if (traffic?.blCacheSize > 0) {
                                         String file = webRootDir + "files/BL_Cache.txt"
                                         List list = giveList(file)
 
-                                        if (list.size() > traffic?.blCacheSize) {
+                                        if (list.size() >= traffic?.blCacheSize) {
                                             println("---------------------listA.size()-------its a hit------------" + list.size())
-
-                                            removeFirstLine(file)
+                                            removeFirstLine(file, traffic?.replacingScheme)
                                         }
                                     }
 
@@ -211,15 +209,15 @@ class TrafficUtilService {
 
                                     if (listB.indexOf(test[jj]) < 0) {
 
-                                        if ((traffic?.replacingScheme == 1 as Long) && traffic?.wlCacheSize > 0) {
+                                        if (traffic?.wlCacheSize > 0) {
 
                                             String file = webRootDir + "files/WL_Cache.txt"
 
                                             List list = giveList(file)
-                                            if (list.size() > traffic?.wlCacheSize) {
+                                            if (list.size() >= traffic?.wlCacheSize) {
                                                 println("---------------------listA.size()-------its a miss------------" + list.size())
 
-                                                removeFirstLine(file)
+                                                removeFirstLine(file, traffic?.replacingScheme)
                                             }
                                         }
 
@@ -255,25 +253,11 @@ class TrafficUtilService {
 
                 String file = webRootDir + "/files/WL_Cache.txt"
                 List list = giveList(file)
-                println("------11------" + list.size()); //Add 1 because line index starts at 0
+                println("------11------" + list.size());
 
                 String file1 = webRootDir + "/files/BL_Cache.txt"
                 List list1 = giveList(file1)
-                println("-------22------" + list.size()); //Add 1 because line index starts at 0
-
-//                LineNumberReader lnr = new LineNumberReader(new FileReader(new File(webRootDir + "/files/WL_Cache.txt")));
-//                lnr.skip(Long.MAX_VALUE);
-//                println(lnr.getLineNumber()); //Add 1 because line index starts at 0
-//// Finally, the LineNumberReader object should be closed to prevent resource leak
-//                lnr.close();
-//
-//
-//                LineNumberReader lnr1 = new LineNumberReader(new FileReader(new File(webRootDir + "/files/BL_Cache.txt")));
-//                lnr1.skip(Long.MAX_VALUE);
-//                println(lnr1.getLineNumber()); //Add 1 because line index starts at 0
-//// Finally, the LineNumberReader object should be closed to prevent resource leak
-//                lnr.close();
-
+                println("-------22------" + list.size());
 
                 staticsResults = new StaticsResults()
 
@@ -403,7 +387,7 @@ class TrafficUtilService {
     }
 
 
-    public static void removeFirstLine(String file) throws IOException {
+    public static void removeFirstLine(String file, Long cacheReplacement) throws IOException {
 
         List listA1 = null;
 
@@ -426,7 +410,30 @@ class TrafficUtilService {
         // test = (String[]) listA1.toArray(new String[0]);
 
         System.out.println("-----------1------------------" + listA1.size());
-        listA1.remove(0);
+        System.out.println("-----------cacheReplacement------------------" + cacheReplacement);
+
+        if (cacheReplacement == 1 as Long) {
+
+            println("----------------------listA1?.first()---------------" + listA1?.first())
+            listA1.removeFirst()
+
+        } else if (cacheReplacement == 2 as Long) {
+            println("----------------------listA1?.last()---------------" + listA1?.last())
+            listA1.removeLast()
+
+        } else if (cacheReplacement == 3 as Long) {
+            int maximum = listA1.size() - 1
+            int minimum = 2
+            int randomNum = minimum + (int) (Math.random() * maximum);
+            println("----------------------listA1-----random---------" + listA1?.get(randomNum))
+
+            listA1.remove(randomNum)
+        } else {
+
+        }
+
+
+
         System.out.println("-----------2------------------" + listA1.size());
 
         PrintWriter writer = new PrintWriter(file)

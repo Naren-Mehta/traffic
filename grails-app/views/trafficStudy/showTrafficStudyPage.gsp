@@ -115,11 +115,11 @@
                 %{--</div>--}%
 
                     <div class="form-group">
-                        <label>Enter Cache Replacement Scheme: 0 for NONE and 1 for FIFO</label>
+                        <label>Enter Cache Replacement Scheme: 0 for NONE and 1 for FIFO and 2 for LIFO and 3 for random</label>
                         <g:select name="replacingScheme" class="form-control"
                                   noSelection="['': '-Cache Replacement menu -']"
                                   value="${trafficCO?.replacingScheme}"
-                                  from="${["0", "1"]}"/>
+                                  from="${["0", "1", "2", "3"]}"/>
 
                         %{--<input type="text" name="replacingScheme" value="1" readonly class="form-control">--}%
 
