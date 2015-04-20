@@ -1,5 +1,6 @@
 package traffic
 
+import org.apache.commons.io.FileUtils
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import utils.AppUtil
 
@@ -61,7 +62,9 @@ class TrafficStudyController {
                 if (trafficCO?.fileType?.equals("IP address")) {
                     trafficUtilService?.storeIpAddress(file, traffic)
                 } else {
-                    trafficUtilService?.storeSystemLogs(sysLogFile, traffic)
+                    trafficUtilService?.storeSystemLogs(file, traffic)
+
+                    trafficUtilService?.storeIpAddressFromSyslogFile(file, traffic)
                 }
             }
 

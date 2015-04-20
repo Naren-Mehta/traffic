@@ -1,7 +1,10 @@
 package traffic
 
+import org.apache.commons.io.FileUtils
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import utils.AppUtil
+
+import java.util.regex.Pattern
 
 
 class TrafficUtilService {
@@ -12,17 +15,33 @@ class TrafficUtilService {
 
         StaticsResults staticsResults = null
         Boolean isSuccessful = false
-        List<IpAddressDocuments> ipAddressDocumentsList = IpAddressDocuments?.findAllByTraffic(traffic)
 
         List<String> totalFiles = []
 
-        if (ipAddressDocumentsList) {
-            ipAddressDocumentsList?.each { IpAddressDocuments ipAddressDocuments ->
-                String ipAddressName = ipAddressDocuments?.name
-                String filename = webRootDir + "uploadedFile/ipAddress/${traffic?.id}/" + ipAddressName
-                totalFiles?.add(filename)
+        if (traffic.fileType?.equals("IP address")) {
+            List<IpAddressDocuments> ipAddressDocumentsList = IpAddressDocuments?.findAllByTraffic(traffic)
+
+            if (ipAddressDocumentsList) {
+                ipAddressDocumentsList?.each { IpAddressDocuments ipAddressDocuments ->
+                    String ipAddressName = ipAddressDocuments?.name
+                    String filename = webRootDir + "uploadedFile/ipAddress/${traffic?.id}/" + ipAddressName
+                    totalFiles?.add(filename)
+                }
+            }
+        } else {
+            List<SystemLogsDocuments> systemLogsDocumentsList = SystemLogsDocuments?.findAllByTraffic(traffic)
+            if (systemLogsDocumentsList) {
+                systemLogsDocumentsList?.each { SystemLogsDocuments systemLogsDocuments ->
+                    String sysLogFileName = systemLogsDocuments?.name
+                    String filename = webRootDir + "uploadedFile/sysLogs/${traffic?.id}/" + sysLogFileName
+                    totalFiles?.add(filename)
+                }
             }
         }
+
+
+
+
 
         int length = totalFiles?.size()
         String[] aaa = new String[length]
@@ -355,6 +374,28 @@ class TrafficUtilService {
         }
     }
 
+    def storeIpAddressFromSyslogFile(CommonsMultipartFile uploadedFile, Traffic traffic) {
+        if (uploadedFile?.bytes) {
+            def webRootDir = AppUtil.staticResourcesDirPath
+            String fileName = uploadedFile.originalFilename.trim()
+
+            def ipsList = upload(uploadedFile)
+            StringBuffer data = new StringBuffer()
+            File extractedFile = new File(webRootDir, "/uploadedFile/ipAddress/${traffic?.id}/ipFromSyslogFile${fileName}")
+            ipsList.each { ip ->
+                data.append("${ip}\n")
+            }
+            FileUtils.writeStringToFile(extractedFile, data.toString());
+
+            IpAddressDocuments ipAddressDocuments = new IpAddressDocuments()
+            ipAddressDocuments.name = fileName
+            ipAddressDocuments.contentType = uploadedFile.contentType
+            ipAddressDocuments.traffic = traffic
+
+            AppUtil?.save(ipAddressDocuments)
+        }
+    }
+
     def storeSystemLogs(CommonsMultipartFile uploadedFile, Traffic traffic) {
         if (uploadedFile?.bytes) {
             def webRootDir = AppUtil.staticResourcesDirPath
@@ -370,6 +411,22 @@ class TrafficUtilService {
 
             AppUtil?.save(systemLogsDocuments)
         }
+    }
+
+
+    def upload(def file) {
+        def ipsList = []
+        def reader = new BufferedReader(new InputStreamReader(file.inputStream));
+        String line
+        String ipRegex = "\\d{1,3}(?:\\.\\d{1,3}){3}(?::\\d{1,5})?";
+        Pattern ipPattern = Pattern.compile(ipRegex);
+        while ((line = reader.readLine()) != null) {
+            def matcher = ipPattern.matcher(line)
+            if (matcher.find()) {
+                ipsList.add(matcher.group())
+            }
+        }
+        return ipsList
     }
 
 
