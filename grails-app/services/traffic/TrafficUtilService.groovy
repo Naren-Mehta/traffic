@@ -374,11 +374,25 @@ class TrafficUtilService {
             def webRootDir = AppUtil.staticResourcesDirPath
             String fileName = uploadedFile.originalFilename.trim()
 
+            List<String> blackListedIps = ['0.1.0.61', '127.0.0.2', '10.173.204.200', '127.0.0.1']
+
+
             def ipsList = upload(uploadedFile)
             StringBuffer data = new StringBuffer()
             File extractedFile = new File(webRootDir, "/uploadedFile/ipAddress/${traffic?.id}/${fileName}")
             ipsList.each { ip ->
-                data.append("${ip}\n")
+
+
+                if (ip in blackListedIps) {
+                    println("----------------black list ip-------------" + ip)
+
+                } else {
+                    println("----------------good list ip-------------" + ip)
+
+                    data.append("${ip}\n")
+
+                }
+
             }
             FileUtils.writeStringToFile(extractedFile, data.toString());
 
