@@ -18,28 +18,15 @@ class TrafficUtilService {
 
         List<String> totalFiles = []
 
-        if (traffic.fileType?.equals("IP address")) {
-            List<IpAddressDocuments> ipAddressDocumentsList = IpAddressDocuments?.findAllByTraffic(traffic)
+        List<IpAddressDocuments> ipAddressDocumentsList = IpAddressDocuments?.findAllByTraffic(traffic)
 
-            if (ipAddressDocumentsList) {
-                ipAddressDocumentsList?.each { IpAddressDocuments ipAddressDocuments ->
-                    String ipAddressName = ipAddressDocuments?.name
-                    String filename = webRootDir + "uploadedFile/ipAddress/${traffic?.id}/" + ipAddressName
-                    totalFiles?.add(filename)
-                }
-            }
-        } else {
-            List<SystemLogsDocuments> systemLogsDocumentsList = SystemLogsDocuments?.findAllByTraffic(traffic)
-            if (systemLogsDocumentsList) {
-                systemLogsDocumentsList?.each { SystemLogsDocuments systemLogsDocuments ->
-                    String sysLogFileName = systemLogsDocuments?.name
-                    String filename = webRootDir + "uploadedFile/sysLogs/${traffic?.id}/" + sysLogFileName
-                    totalFiles?.add(filename)
-                }
+        if (ipAddressDocumentsList) {
+            ipAddressDocumentsList?.each { IpAddressDocuments ipAddressDocuments ->
+                String ipAddressName = ipAddressDocuments?.name
+                String filename = webRootDir + "uploadedFile/ipAddress/${traffic?.id}/" + ipAddressName
+                totalFiles?.add(filename)
             }
         }
-
-
 
 
 

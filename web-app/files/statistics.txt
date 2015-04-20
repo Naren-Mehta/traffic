@@ -334,3 +334,9 @@ found in WL=5 , found in BL=2
 hit in DNSBL=6 , miss in dnsbl=11
 total time taken: 0.2175333333 min 
 Date = Fri Apr 17 01:21:36 IST 2015
+
+ total test data: 593 
+found in WL=382 , found in BL=0 
+hit in DNSBL=1 , miss in dnsbl=210
+total time taken: 2.6953166667 min 
+Date = Mon Apr 20 09:57:56 IST 2015
