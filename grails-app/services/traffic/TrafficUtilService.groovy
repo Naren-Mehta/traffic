@@ -20,13 +20,21 @@ class TrafficUtilService {
 
         List<IpAddressDocuments> ipAddressDocumentsList = IpAddressDocuments?.findAllByTraffic(traffic)
 
+
+        println("-----------ipAddressDocumentsList-----------" + ipAddressDocumentsList)
+
         if (ipAddressDocumentsList) {
             ipAddressDocumentsList?.each { IpAddressDocuments ipAddressDocuments ->
                 String ipAddressName = ipAddressDocuments?.name
                 String filename = webRootDir + "uploadedFile/ipAddress/${traffic?.id}/" + ipAddressName
+
+                println("-----------filename-----------" + filename)
+
                 totalFiles?.add(filename)
             }
         }
+
+        println("--------------------totalFiles----------------------" + totalFiles)
 
 
 
@@ -368,7 +376,7 @@ class TrafficUtilService {
 
             def ipsList = upload(uploadedFile)
             StringBuffer data = new StringBuffer()
-            File extractedFile = new File(webRootDir, "/uploadedFile/ipAddress/${traffic?.id}/ipFromSyslogFile${fileName}")
+            File extractedFile = new File(webRootDir, "/uploadedFile/ipAddress/${traffic?.id}/${fileName}")
             ipsList.each { ip ->
                 data.append("${ip}\n")
             }

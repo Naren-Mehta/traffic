@@ -340,3 +340,15 @@ found in WL=382 , found in BL=0
 hit in DNSBL=1 , miss in dnsbl=210
 total time taken: 2.6953166667 min 
 Date = Mon Apr 20 09:57:56 IST 2015
+
+ total test data: 593 
+found in WL=382 , found in BL=0 
+hit in DNSBL=1 , miss in dnsbl=210
+total time taken: 2.6167 min 
+Date = Mon Apr 20 10:08:53 IST 2015
+
+ total test data: 20 
+found in WL=9 , found in BL=2 
+hit in DNSBL=2 , miss in dnsbl=7
+total time taken: 0.1031166667 min 
+Date = Mon Apr 20 10:12:39 IST 2015
