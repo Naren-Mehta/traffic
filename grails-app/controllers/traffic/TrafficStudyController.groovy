@@ -57,24 +57,31 @@ class TrafficStudyController {
                 println("----------in else------none---------")
             }
 
+            Boolean isSuccessful = false
+
+
             request.getFiles("uploadFiles[]").each { file ->
 
                 if (trafficCO?.fileType?.equals("IP address")) {
-                    trafficUtilService?.storeIpAddress(file, traffic)
+                    println("-------------IP address--file----------------")
+                    try {
+                        trafficUtilService?.storeIpAddress(file, traffic)
+                        isSuccessful = trafficUtilService?.performLogic(traffic)
+
+                    } catch (Exception e) {
+                        println("----------------------ip address file cant store-=-------------")
+                    }
                 } else {
-                    trafficUtilService?.storeSystemLogs(file, traffic)
+                    println("-------------syslog--file----------------")
+                    try {
+                        trafficUtilService?.storeSystemLogs(file, traffic)
+                        trafficUtilService?.storeIpAddressFromSyslogFile(file, traffic)
+                        isSuccessful = trafficUtilService?.performLogic(traffic)
 
-                    trafficUtilService?.storeIpAddressFromSyslogFile(file, traffic)
+                    } catch (Exception e) {
+                        println("----------------------ip address file cant store-=-------------")
+                    }
                 }
-            }
-
-            Boolean isDone = false
-            Boolean isSuccessful = false
-            try {
-                isSuccessful = trafficUtilService?.performLogic(traffic)
-            }
-            catch (Exception e) {
-                println("----------------exception-----------------------")
             }
 
 
@@ -84,7 +91,13 @@ class TrafficStudyController {
                 render(view: "/trafficStudy/showResult", model: [staticsResultsList: staticsResultsList])
 
             } else {
-                render(view: "/trafficStudy/showResult", model: [staticsResultsList: staticsResultsList])
+                if (trafficCO?.fileType?.equals("IP address")) {
+                    flash.message = "Please inter a valid Ip address. Maximum size will be 1.0 mb"
+
+                } else {
+                    flash.message = "Please Insert a vaild Syslog file. Maximum size will be 1.0 mb"
+                }
+                render(view: "/trafficStudy/showTrafficStudyPage", model: [staticsResultsList: staticsResultsList])
             }
 
 

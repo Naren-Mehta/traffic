@@ -1,6 +1,7 @@
 package traffic
 
 import org.apache.commons.io.FileUtils
+import org.springframework.web.multipart.commons.CommonsFileUploadSupport
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import utils.AppUtil
 
@@ -11,6 +12,8 @@ class TrafficUtilService {
 
 
     public Boolean performLogic(Traffic traffic) {
+        println("----------------in performLogic-----------------------")
+
         def webRootDir = AppUtil.staticResourcesDirPath
 
         StaticsResults staticsResults = null
@@ -370,7 +373,13 @@ class TrafficUtilService {
     }
 
     def storeIpAddressFromSyslogFile(CommonsMultipartFile uploadedFile, Traffic traffic) {
+
+
+        println("-----------storeIpAddressFromSyslogFile-------------")
+
         if (uploadedFile?.bytes) {
+            println("-----------in if-------------")
+
             def webRootDir = AppUtil.staticResourcesDirPath
             String fileName = uploadedFile.originalFilename.trim()
 
@@ -381,16 +390,11 @@ class TrafficUtilService {
             StringBuffer data = new StringBuffer()
             File extractedFile = new File(webRootDir, "/uploadedFile/ipAddress/${traffic?.id}/${fileName}")
             ipsList.each { ip ->
-
-
                 if (ip in blackListedIps) {
                     println("----------------black list ip-------------" + ip)
-
                 } else {
                     println("----------------good list ip-------------" + ip)
-
                     data.append("${ip}\n")
-
                 }
 
             }
@@ -402,6 +406,10 @@ class TrafficUtilService {
             ipAddressDocuments.traffic = traffic
 
             AppUtil?.save(ipAddressDocuments)
+        } else {
+            println("----------no uploadedFile?.bytes-------------")
+
+
         }
     }
 
